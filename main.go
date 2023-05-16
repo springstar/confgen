@@ -9,7 +9,7 @@ import (
 	
 )
 
-func main() {
+func genJsonConf() {
 	files, err := ioutil.ReadDir("config")
 	if (err != nil) {
 		log.Fatal(err)
@@ -36,5 +36,12 @@ func main() {
 		fmt.Println(k)
 		mgr.AddConf(k, conf)
 	}
+}
+
+
+
+func main() {
+	s := genStruct()
+	write(s)
 
 }
