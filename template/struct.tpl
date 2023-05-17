@@ -8,14 +8,15 @@ type loader func(map[string]interface{}) error
 
 var (
     loaders map[string]loader
+    <%= for (n) in names { %>
+    <%=n%>Datas map[int]*<%=n%> = make(map[int]*<%=n%>)
+    <%} %>
 )   
 
 func LoadConf(name string, m map[string]interface{}) {
     f := loaders[name]
     f(m)
 }
-
-
 
 <%= for (n) in names { %>
 func load<%=n%>(m map[string]interface{}) error {
