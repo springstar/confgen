@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/springstar/confgen/config"
-	_ "reflect"
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
@@ -16,6 +15,8 @@ import (
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
+
+// var loaders map[string]
 
 type JsonConfig struct {
 	name string
@@ -34,6 +35,9 @@ func (c *JsonConfig) Parse(bytes []byte) error {
 		panic(err)
 	}
 
+	for _, v :=range c.data {
+		config.LoadConf(c.name, v)
+	}
 	return nil
 }
 
@@ -65,9 +69,9 @@ func (m *JsonConfigManager) loadConf(path string) {
 			log.Fatal(err)
 		}
 
-		conf := NewJsonConfig(f.Name())
-		conf.Parse(content)
 		k := strings.TrimSuffix(f.Name(), filepath.Ext(f.Name()))
+		conf := NewJsonConfig(k)
+		conf.Parse(content)
 		m.addConf(k, conf)
 	}
 }
@@ -116,6 +120,8 @@ func genStructs() (names []string, defines []string) {
 		defines = append(defines, out)
 	}
 
+	
+
 	return names, defines
 	
 }
@@ -158,6 +164,8 @@ func writeStructs(str []string) {
 	file.WriteString("\n\n\n")
 	file.WriteString(s)
 }
+
+
 
 
 
