@@ -34,14 +34,15 @@ func genJsonConf() {
 		conf.Parse(content)
 		k := strings.TrimSuffix(f.Name(), filepath.Ext(f.Name()))
 		fmt.Println(k)
-		mgr.AddConf(k, conf)
+		mgr.addConf(k, conf)
 	}
 }
 
 
 
 func main() {
-	s := genStruct()
-	write(s)
+	names, defs := genStructs()
+	writeStructs(defs)
+	writeMethods(names)
 
 }
